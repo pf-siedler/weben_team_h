@@ -82,7 +82,7 @@ def resultsTemplate(data):
     #TODO クエリからデートコース一覧を取得
     # courses = ...
 
-    place = query["place"][0]
+    location = query["location"][0]
     timeslot = query["time"][0]
     budget = query["budget"][0]
 
@@ -90,7 +90,7 @@ def resultsTemplate(data):
             CarouselColumn(
                 thumbnail_image_url='https://example.com/item1.jpg',
                 title='this is menu1',
-                text='場所{} 時間帯{} 予算{}のイベント一覧'.format(place, timeslot, budget),
+                text="{}-{}-予算{}万".format(location, timeslot, budget),
                 actions=[
                     PostbackTemplateAction(
                         label='postback1',
@@ -155,16 +155,16 @@ def callback():
 
     return 'OK'
 
-places = ["横浜", "東京", "鎌倉"]
+locations = ["横浜", "鎌倉", "恵比寿", "銀座", "お台場", "浅草"]
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
-    if text in places:
+    if text in locations:
 
         line_bot_api.reply_message(
         event.reply_token,
-        askTimeSlotTemplate("place={}".format(text)))
+        askTimeSlotTemplate("location={}".format(text)))
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
