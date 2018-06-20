@@ -92,18 +92,9 @@ def resultsTemplate(data):
                 title='this is menu1',
                 text="{}-{}-予算{}万".format(location, timeslot, budget),
                 actions=[
-                    PostbackTemplateAction(
-                        label='postback1',
-                        text='postback text1',
-                        data='action=buy&itemid=1'
-                    ),
-                    MessageTemplateAction(
-                        label='message1',
-                        text='message text1'
-                    ),
                     URITemplateAction(
-                        label='uri1',
-                        uri='http://example.com/1'
+                        label='webサイトへ飛ぶ',
+                        uri='https://sites.google.com/view/webeng-teamh/home/odaiba-1day'
                     )
                 ]
             ),
@@ -112,15 +103,6 @@ def resultsTemplate(data):
                 title='this is menu2',
                 text='description2',
                 actions=[
-                    PostbackTemplateAction(
-                        label='postback2',
-                        text='postback text2',
-                        data='action=buy&itemid=2'
-                    ),
-                    MessageTemplateAction(
-                        label='message2',
-                        text='message text2'
-                    ),
                     URITemplateAction(
                         label='uri2',
                         uri='http://example.com/2'
