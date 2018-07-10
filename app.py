@@ -141,12 +141,23 @@ locations = ["横浜", "鎌倉", "恵比寿", "銀座", "お台場", "浅草"]
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+
     text = event.message.text
     if text in locations:
 
         line_bot_api.reply_message(
         event.reply_token,
         askTimeSlotTemplate("location={}".format(text)))
+
+@handler.add(MessageEvent)
+def handle_location(event):
+    latitude = event.message.latitude
+    longitude = event.message.longitude
+    print(event.message.id)
+    if latitude == 35.631775 and longitude == 139.777733:
+        line_bot_api.reply_message(
+        event.reply_token,
+        askTimeSlotTemplate("location=お台場"))
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
