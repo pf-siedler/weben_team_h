@@ -88,7 +88,7 @@ def resultsTemplate(data):
 
     courses = [
             CarouselColumn(
-                thumbnail_image_url='https://github.com/pf-siedler/weben_team_h/blob/master/img/qr.png?raw=true',
+                thumbnail_image_url='https://rawgit.com/pf-siedler/weben_team_h/master/img/Odaiba_1.jpg',
                 title='this is menu1',
                 text="{} {} 予算{}万".format(location, timeslot, budget),
                 actions=[
@@ -99,13 +99,13 @@ def resultsTemplate(data):
                 ]
             ),
             CarouselColumn(
-                thumbnail_image_url='https://example.com/item2.jpg',
+                thumbnail_image_url='https://rawgit.com/pf-siedler/weben_team_h/master/img/Odaiba_2.jpg',
                 title='this is menu2',
-                text='description2',
+                text="{} {} 予算{}万".format(location, timeslot, budget),
                 actions=[
                     URITemplateAction(
-                        label='uri2',
-                        uri='http://example.com/2'
+                        label='webサイトへ飛ぶ',
+                        uri='https://sites.google.com/view/webeng-teamh/home/odaiba-1day'
                     )
                 ]
             )
