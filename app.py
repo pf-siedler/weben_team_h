@@ -29,17 +29,17 @@ def askTimeSlotTemplate(data):
             PostbackTemplateAction(
                 label='午前中',
                 text='午前中',
-                data='phase=time&{}&time=beforenoon'.format(data)
+                data='phase=time&{}&time=午前中'.format(data)
             ),
             PostbackTemplateAction(
                 label='午後',
                 text='午後',
-                data='phase=time&{}&time=afternoon'.format(data)
+                data='phase=time&{}&time=午前中'.format(data)
             ),
             PostbackTemplateAction(
                 label='一日中',
                 text='一日中',
-                data='phase=time&{}&time=fulltime'.format(data)
+                data='phase=time&{}&time=一日中'.format(data)
             ),
         ])
     )
@@ -88,22 +88,13 @@ def resultsTemplate(data):
 
     courses = [
             CarouselColumn(
-                thumbnail_image_url='https://example.com/item1.jpg',
+                thumbnail_image_url='https://github.com/pf-siedler/weben_team_h/blob/master/img/qr.png?raw=true',
                 title='this is menu1',
-                text="{}-{}-予算{}万".format(location, timeslot, budget),
+                text="{} {} 予算{}万".format(location, timeslot, budget),
                 actions=[
-                    PostbackTemplateAction(
-                        label='postback1',
-                        text='postback text1',
-                        data='action=buy&itemid=1'
-                    ),
-                    MessageTemplateAction(
-                        label='message1',
-                        text='message text1'
-                    ),
                     URITemplateAction(
-                        label='uri1',
-                        uri='http://example.com/1'
+                        label='webサイトへ飛ぶ',
+                        uri='https://sites.google.com/view/webeng-teamh/home/odaiba-1day'
                     )
                 ]
             ),
@@ -112,15 +103,6 @@ def resultsTemplate(data):
                 title='this is menu2',
                 text='description2',
                 actions=[
-                    PostbackTemplateAction(
-                        label='postback2',
-                        text='postback text2',
-                        data='action=buy&itemid=2'
-                    ),
-                    MessageTemplateAction(
-                        label='message2',
-                        text='message text2'
-                    ),
                     URITemplateAction(
                         label='uri2',
                         uri='http://example.com/2'
