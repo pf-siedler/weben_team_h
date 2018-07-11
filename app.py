@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, abort
 import urllib
+from tinydb import TinyDB, Query
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -15,6 +16,9 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
+
+db = TinyDB('./db.json')
+Course = Query()
 
 line_bot_api = LineBotApi(os.environ.get("LINE_ACCESS_TOKEN"))
 handler = WebhookHandler(os.environ.get('LINE_CHANNEL_SECRET'))
@@ -75,6 +79,28 @@ def askBudgetTemplate(data):
 
     return message
 
+def getCourses(location, timeslot, budget):
+    #results = db.search((Course.location == location) & (Course.timeslot == timeslot) & (Course.budget == budget))
+    results = db.search(Course.location != 'John')#全部が当てはまるはず
+    courses = []
+
+    for course in results:
+        courses.append(
+            CarouselColumn(
+                thumbnail_image_url=course["image"],
+                title=course["title"],
+                text=course["description"],
+                actions=[
+                    URITemplateAction(
+                        label='webサイトへ飛ぶ',
+                        uri=course["url"]
+                    )
+                ]
+            )
+        )
+    
+    return courses
+
 def resultsTemplate(data):
 
     query = parseQuery(data)
@@ -86,38 +112,21 @@ def resultsTemplate(data):
     timeslot = query["time"][0]
     budget = query["budget"][0]
 
-    courses = [
-            CarouselColumn(
-                thumbnail_image_url='https://rawgit.com/pf-siedler/weben_team_h/master/img/Odaiba_1.jpg',
-                title='this is menu1',
-                text="{} {} 予算{}万".format(location, timeslot, budget),
-                actions=[
-                    URITemplateAction(
-                        label='webサイトへ飛ぶ',
-                        uri='https://sites.google.com/view/webeng-teamh/home/odaiba-1day'
-                    )
-                ]
-            ),
-            CarouselColumn(
-                thumbnail_image_url='https://rawgit.com/pf-siedler/weben_team_h/master/img/Odaiba_2.jpg',
-                title='this is menu2',
-                text="{} {} 予算{}万".format(location, timeslot, budget),
-                actions=[
-                    URITemplateAction(
-                        label='webサイトへ飛ぶ',
-                        uri='https://sites.google.com/view/webeng-teamh/home/odaiba-1day'
-                    )
-                ]
-            )
-        ]
+    print("{}{}{}".format(location, timeslot, budget))
 
-    message = TemplateSendMessage(
-    alt_text='Carousel template',
-    template=CarouselTemplate(
-        columns=courses
-    ))
+    courses = getCourses(location, timeslot, budget)
 
-    return message
+    if courses:
+        message = TemplateSendMessage(
+        alt_text='Carousel template',
+        template=CarouselTemplate(
+            columns=courses
+        ))
+
+        return message
+    else:
+        return TextSendMessage(text="残念ですがご希望の条件に合ったデートコースが見つかりませんでした。")
+        
 
 
 @app.route("/callback", methods=['POST'])
